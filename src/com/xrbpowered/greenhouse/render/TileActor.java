@@ -11,20 +11,8 @@ import com.xrbpowered.gl.scene.Scene;
 
 public class TileActor extends Actor {
 
-	public static final int LIGHT_RANGE = 1;
-	private static final int MAX_LIGHTS = (LIGHT_RANGE*2+1)*(LIGHT_RANGE*2+1);
-	
-	private static final Vector3f LIGHT_ATT = new Vector3f(1f, 0.14f, 0.07f);
-	private static final Vector3f[] LIGHT_ATTS;
-	static {
-		LIGHT_ATTS = new Vector3f[MAX_LIGHTS];
-		for(int i=0; i<LIGHT_ATTS.length; i++)
-			LIGHT_ATTS[i] = LIGHT_ATT;
-	}
-	
 	public Vector3f lightPosition = null;
 	public Vector4f lightColor = null;
-	public int lightIndex = -1;
 	
 	public ArrayList<PrefabActor> prefabs = new ArrayList<>();
 
@@ -44,11 +32,6 @@ public class TileActor extends Actor {
 		return data;
 	}
 	
-/*	public int numLights = 0;
-	public int[] lightIndices = new int[MAX_LIGHTS];
-	public Vector3f[] lightPositions = new Vector3f[MAX_LIGHTS];
-	public Vector4f[] lightColors = new Vector4f[MAX_LIGHTS];*/
-
 	public TileActor(Scene scene, float x, float z) {
 		super(scene);
 		position = new Vector3f(x, 0f, z);
@@ -67,9 +50,5 @@ public class TileActor extends Actor {
 			allColliders.add(e);
 		}
 	}
-	
-/*	public void setLights() {
-		StandardShader.environment.setPointLights(numLights, lightPositions, lightColors, LIGHT_ATTS);
-	}*/
 	
 }

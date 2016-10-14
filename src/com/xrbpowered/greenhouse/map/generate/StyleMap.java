@@ -9,7 +9,7 @@ import com.xrbpowered.utils.RandomUtils;
 
 public class StyleMap implements AbstractMap<StyleMapTile> {
 
-	public boolean addNarrows = true;
+	public boolean addNarrows = false;
 	
 	private int sizex, sizey;
 	private StyleMapTile[][] map;

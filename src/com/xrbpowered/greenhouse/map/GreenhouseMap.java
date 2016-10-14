@@ -33,24 +33,6 @@ public class GreenhouseMap {
 		tiles[x][y] = tile;
 	}
 	
-/*	public void calculateLighting() {
-		for(int x=0; x<=sizex-1; x++)
-			for(int y=0; y<=sizey-1; y++) {
-				int n = 0;
-				for(int dx=-TileActor.LIGHT_RANGE; dx<=TileActor.LIGHT_RANGE; dx++)
-					for(int dy=-TileActor.LIGHT_RANGE; dy<=TileActor.LIGHT_RANGE; dy++) {
-						if(x+dx<0 || y+dy<0 || x+dx>sizex-1 || y+dy>sizey-1 ||
-								tiles[x+dx][y+dy]==null || tiles[x+dx][y+dy].lightPosition==null || tiles[x+dx][y+dy].lightColor==null)
-							continue;
-						tiles[x][y].lightIndices[n] = tiles[x+dx][y+dy].lightIndex;
-						tiles[x][y].lightPositions[n] = tiles[x+dx][y+dy].lightPosition;
-						tiles[x][y].lightColors[n] = tiles[x+dx][y+dy].lightColor;
-						n++;
-					}
-				tiles[x][y].numLights = n;
-			}
-	}*/
-	
 	public boolean updateMapLightColors(Graphics2D g2, int w, int h) {
 		g2.setBackground(BufferTexture.CLEAR_COLOR);
 		g2.clearRect(0, 0, w, h);
@@ -77,9 +59,6 @@ public class GreenhouseMap {
 						instanceData[offs+1] = a.position.y;
 						instanceData[offs+2] = a.position.z;
 						instanceData[offs+3] = -a.rotation.y;
-//						instanceData[offs+4] = tile.position.x;
-//						instanceData[offs+5] = tile.position.y;
-//						instanceData[offs+6] = tile.position.z;
 						offs += 4;
 						count++;
 					}
