@@ -119,7 +119,7 @@ public class GreenhouseClient extends ExampleClient {
 	public static Font BODY_FONT;
 	
 	public GreenhouseClient() {
-		AssetManager.defaultAssets = new FileAssetManager("assets", AssetManager.defaultAssets);
+		AssetManager.defaultAssets = new FileAssetManager("assets_dev", new FileAssetManager("assets", AssetManager.defaultAssets));
 		init("MazeTest");
 		run();
 	}
