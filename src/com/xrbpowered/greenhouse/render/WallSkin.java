@@ -2,6 +2,7 @@ package com.xrbpowered.greenhouse.render;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import com.xrbpowered.gl.res.shaders.Shader;
 import com.xrbpowered.gl.res.textures.Texture;
 import com.xrbpowered.gl.res.textures.TextureCache;
 import com.xrbpowered.gl.ui.AbstractLoadScreen;
@@ -61,8 +62,10 @@ public class WallSkin implements ComponentSkin {
 	}
 	
 	@Override
-	public void use(int renderPass, GreenhouseShader shader) {
-		((WallShader) shader).setMaterialTiling(materialTiling);
+	public void use(int renderPass, Shader shader) {
+		if(shader instanceof WallShader) {
+			((WallShader) shader).setMaterialTiling(materialTiling);
+		}
 		diffuse.bind(0);
 		normal.bind(1);
 		specularMask.bind(2);

@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector4f;
 import com.xrbpowered.gl.res.ObjMeshLoader;
 import com.xrbpowered.gl.res.StaticMesh;
 import com.xrbpowered.gl.res.shaders.InstanceBuffer;
+import com.xrbpowered.gl.res.shaders.Shader;
 import com.xrbpowered.greenhouse.map.GreenhouseMap;
 import com.xrbpowered.greenhouse.map.generate.TopologyExpander;
 import com.xrbpowered.greenhouse.map.generate.TopologyMap;
@@ -31,7 +32,11 @@ public class PrefabComponent {
 	private float localLightRange;
 	
 	public PrefabComponent(String objPath, ComponentSkin skin) {
-		this.mesh = ObjMeshLoader.loadObj(BASE_PATH + objPath, 0, 1f);
+		this(ObjMeshLoader.loadObj(BASE_PATH + objPath, 0, 1f), skin);
+	}
+
+	public PrefabComponent(StaticMesh mesh, ComponentSkin skin) {
+		this.mesh = mesh;
 		this.skin = skin;
 		instanceData = new float[MAX_INSTANCES * 4];
 		instBuffer = new InstanceBuffer(1, MAX_INSTANCES, startAttrib, new int[] {3, 1});
@@ -63,8 +68,9 @@ public class PrefabComponent {
 		return mesh.countTris();
 	}
 	
-	public int drawInstances(int pass, GreenhouseShader shader) {
-		skin.use(pass, shader);
+	public int drawInstances(int pass, Shader shader) {
+		if(skin!=null)
+			skin.use(pass, shader);
 		if(localLightColor!=null && shader instanceof GreenhouseLightShader) {
 			((GreenhouseLightShader) shader).setLocalLighting(localAmbient, localLightOffset, localLightColor, localLightRange);
 		}
@@ -76,7 +82,7 @@ public class PrefabComponent {
 		return 1;
 	}
 
-	public int drawPass(int pass, GreenhouseShader shader) {
+	public int drawPass(int pass, Shader shader) {
 		if(pass==renderPass)
 			return drawInstances(pass, shader);
 		else
@@ -86,10 +92,11 @@ public class PrefabComponent {
 	public void destroy() {
 		instBuffer.destroy();
 		mesh.destroy();
-		skin.destroy();
+		if(skin!=null)
+			skin.destroy();
 	}
 
-	public static int bindShader(GreenhouseShader shader, int startAttrib) {
+	public static int bindShader(Shader shader, int startAttrib) {
 		PrefabComponent.startAttrib = startAttrib;
 		return InstanceBuffer.bindAttribLocations(shader, startAttrib, ATTRIB_NAMES);
 	}	

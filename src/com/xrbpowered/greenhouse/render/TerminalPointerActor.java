@@ -15,6 +15,7 @@ public class TerminalPointerActor extends UIPointerActor {
 	private static final int SIZE = 32;
 	
 	public final StaticMeshActor link;
+	public boolean drawText = true;
 	
 	public TerminalPointerActor(UIManager ui, StaticMeshActor link) {
 		super(ui, link.scene, SIZE+120, SIZE, true);
@@ -42,11 +43,13 @@ public class TerminalPointerActor extends UIPointerActor {
 		g2.fillPolygon(new int[] {SIZE/2-SIZE/5, SIZE/2, SIZE/2+SIZE/5, SIZE/2}, new int[] {SIZE/2, SIZE/2-SIZE/5, SIZE/2, SIZE/2+SIZE/5}, 4);
 		g2.setStroke(new BasicStroke(1f));
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		g2.drawLine(SIZE/2+SIZE/3, SIZE/2, SIZE+100, SIZE/2);
-		g2.setFont(ExampleClient.LARGE_FONT);
-		g2.drawString("CRYSTAL", SIZE, SIZE/2-3);
-		g2.setFont(ExampleClient.SMALL_FONT);
-		g2.drawString(String.format("%.1fm", dist), SIZE, SIZE/2+15);
+		if(drawText) {
+			g2.drawLine(SIZE/2+SIZE/3, SIZE/2, SIZE+100, SIZE/2);
+			g2.setFont(ExampleClient.LARGE_FONT);
+			g2.drawString("CRYSTAL", SIZE, SIZE/2-3);
+			g2.setFont(ExampleClient.SMALL_FONT);
+			g2.drawString(String.format("%.1fm", dist), SIZE, SIZE/2+15);
+		}
 		return true;
 	}
 

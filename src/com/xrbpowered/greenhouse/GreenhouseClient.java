@@ -64,6 +64,7 @@ import com.xrbpowered.greenhouse.render.GlassShader;
 import com.xrbpowered.greenhouse.render.GlassSkin;
 import com.xrbpowered.greenhouse.render.GreenhouseEnvironment;
 import com.xrbpowered.greenhouse.render.LoadScreen;
+import com.xrbpowered.greenhouse.render.MapShader;
 import com.xrbpowered.greenhouse.render.MaterialStack;
 import com.xrbpowered.greenhouse.render.Prefab;
 import com.xrbpowered.greenhouse.render.RenderStack;
@@ -109,7 +110,10 @@ public class GreenhouseClient extends ExampleClient {
 	private float timeElapsed;
 	private float timeShown = 0f; 
 
-	private ArrayList<TerminalPointerActor> pointerActors = new ArrayList<>();
+	public ArrayList<TerminalPointerActor> pointerActors = new ArrayList<>();
+	
+	private boolean mapViewEnabled = false;
+	private MapView mapView;
 	
 	private UIPane uiPaneObjective;
 	private UIPane uiMenuPane;
@@ -165,7 +169,7 @@ public class GreenhouseClient extends ExampleClient {
 		if(debugLines!=null)
 			debugLines.destroy();
 		float[] lineData = TileActor.getColliderLineData();
-		debugLines = new StaticMesh(debugLinesInfo, lineData, GL11.GL_LINES, lineData.length/2, false);
+		debugLines = new StaticMesh(debugLinesInfo, lineData, 2, lineData.length/2, false);
 
 		renderStack.environment.updateLightColors();
 		renderStack.compStack.updateInstanceData(map);
@@ -208,6 +212,8 @@ public class GreenhouseClient extends ExampleClient {
 			}
 		};
 		
+		renderStack.mapShader = new MapShader(scene);
+		
 		debugLinesShader = new SceneShader(scene, debugLinesInfo, "debug_lines_v.glsl", "blank_f.glsl");
 		loading.addProgress(1);
 		Client.timestamp("load shaders");
@@ -227,16 +233,20 @@ public class GreenhouseClient extends ExampleClient {
 		Client.timestamp("load components");
 		
 		meshSetWall = new Prefab(
-				ComponentStack.wallPanel, ComponentStack.wallFrame, ComponentStack.wallFloor	
+				ComponentStack.wallPanel, ComponentStack.wallFrame, ComponentStack.wallFloor,
+				ComponentStack.mapFloorWall, ComponentStack.mapLinesWallFrame, ComponentStack.mapLinesWallPanel, ComponentStack.mapLinesWallFloor
 			).addColliders(new Vector2f(-1.5f, 1f), new Vector2f(1.5f, 1f));
 		meshSetMid = new Prefab(
-				ComponentStack.floor, ComponentStack.ceil
+				ComponentStack.floor, ComponentStack.ceil,
+				ComponentStack.mapFloorMid
 			);
 		meshSetMidLight = new Prefab(
-				ComponentStack.floor, ComponentStack.ceilLamp
+				ComponentStack.floor, ComponentStack.ceilLamp,
+				ComponentStack.mapFloorMid, ComponentStack.mapLinesCeilLamp
 			);
 		meshSetColPod = new Prefab(
-				ComponentStack.podOut, ComponentStack.podIn, ComponentStack.plant, ComponentStack.podFloor, ComponentStack.podGlass
+				ComponentStack.podOut, ComponentStack.podIn, ComponentStack.plant, ComponentStack.podFloor, ComponentStack.podGlass,
+				ComponentStack.mapFloorPod, ComponentStack.mapLinesPod, ComponentStack.mapLinesPodFloor
 			).addColliders(
 				new Vector2f(0.75f, 1.5f), new Vector2f(1.5f, 0.75f),
 				new Vector2f(1.5f, -0.75f), new Vector2f(0.75f, -1.5f),
@@ -245,10 +255,12 @@ public class GreenhouseClient extends ExampleClient {
 				new Vector2f(0.75f, 1.5f)
 			);
 		meshSetCIn = new Prefab(
-				ComponentStack.cinFrame, ComponentStack.cinFloor
+				ComponentStack.cinFrame, ComponentStack.cinFloor,
+				ComponentStack.mapFloorCin, ComponentStack.mapLinesCinFrame, ComponentStack.mapLinesCinFloor
 			).addColliders(new Vector2f(1f, 1.5f), new Vector2f(1.5f, 1f));
 		meshSetCOut = new Prefab(
-				ComponentStack.coutPanel, ComponentStack.coutFrame, ComponentStack.coutFloor
+				ComponentStack.coutPanel, ComponentStack.coutFrame, ComponentStack.coutFloor,
+				ComponentStack.mapFloorCout, ComponentStack.mapLinesCoutFrame, ComponentStack.mapLinesCoutPanel, ComponentStack.mapLinesCoutFloor
 			).addColliders(new Vector2f(-1.5f, 1f), new Vector2f(0.25f, 1f), new Vector2f(1f, 0.25f), new Vector2f(1f, -1.5f));
 		
 		meshCrystal = ObjMeshLoader.loadObj("test.obj", 0, 0.2f);
@@ -337,6 +349,8 @@ public class GreenhouseClient extends ExampleClient {
 		});
 		uiPaneObjective.setAnchor(Display.getWidth()/2 - 250, 20);
 		
+		mapView = new MapView(this, (BlurBackground) menu.getBackground());
+		
 		showMenu();
 		((BlurBackground) menu.getBackground()).startTween(0f, 1f);
 	}
@@ -351,6 +365,10 @@ public class GreenhouseClient extends ExampleClient {
 	
 	public GreenhouseMap getMap() {
 		return map;
+	}
+	
+	public UIManager getUI() {
+		return ui;
 	}
 
 	private boolean initialMenu = true;
@@ -374,13 +392,6 @@ public class GreenhouseClient extends ExampleClient {
 				drawStringCentered(g2, VERSION_NAME, 250, 50);
 				g2.setFont(BODY_FONT);
 				g2.setColor(Color.WHITE);
-/*				if(initialMenu) {
-					drawStringCentered(g2, "Press Space to start", 250, 80);
-				}
-				else {
-					drawStringCentered(g2, "Press Space to resume", 250, 80);
-					drawStringCentered(g2, "or press Escape again to exit", 250, 100);
-				}*/
 				return true;
 			}
 		}) {
@@ -390,12 +401,12 @@ public class GreenhouseClient extends ExampleClient {
 				y = screenHeight / 4;
 			}
 		};
-//		uiMenuPane.setAnchor(Display.getWidth()/2 - 250, Display.getHeight()/2 - 320);
 		menu = new ExampleMenu(this, ui) {
 			private MenuOptionItem optRefPass;
 			private UIPage pNewMap;
 			private Widget wResume;
 			private int mapSize = 5;
+			private boolean mapViewEnabled = false;
 			@Override
 			protected PostProcessRenderer createBackground(Renderer parent) {
 				return new BlurBackground(parent);
@@ -404,7 +415,7 @@ public class GreenhouseClient extends ExampleClient {
 				mb.startPage(WIDTH, CAPTION_WIDTH);
 				mb.addWidget(new Label(mb.getPageRoot(), "START NEW", ExampleWidgetPainters.LABEL_STYLE_MENU_TITLE));
 				mb.addBlank(20);
-				mb.addMenuItem(optRefPass = new MenuOptionItem(mb.getPageRoot(), "Map size", new String[] {"Tiny (3x3)", "Small (4x4)", "Normal (5x5)", "Large (6x6)", "Very Large (7x7)", "Huge (8x8)"}, 2, 0) {
+				mb.addMenuItem(new MenuOptionItem(mb.getPageRoot(), "Map size", new String[] {"Tiny (3x3)", "Small (4x4)", "Normal (5x5)", "Large (6x6)", "Very Large (7x7)", "Huge (8x8)"}, 2, 0) {
 					@Override
 					public void onChangeValue(int index) {
 						mapSize = index+3;
@@ -412,11 +423,18 @@ public class GreenhouseClient extends ExampleClient {
 				});
 				mb.addMenuItem(new MenuOptionItem(mb.getPageRoot(), "Security Drones", new String[] {"None"}, 0, 0)).setEnabled(false);
 				mb.addMenuItem(new MenuOptionItem(mb.getPageRoot(), "Oxygen", new String[] {"Unlimited"}, 0, 0)).setEnabled(false);
+				mb.addMenuItem(new MenuOptionItem(mb.getPageRoot(), "Can view map", new String[] {"No", "Yes"}, 0, 0) {
+					@Override
+					public void onChangeValue(int index) {
+						mapViewEnabled = index>0;
+					}
+				});
 				mb.addBlank(20);
 				mb.addMenuItem(new MenuItem(mb.getPageRoot(), "START", ExampleWidgetPainters.MENU_STYLE_ACTION) {
 					@Override
 					public void onMouseDown(int x, int y, int button) {
 						startNewMap(mapSize);
+						GreenhouseClient.this.mapViewEnabled = mapViewEnabled;
 						uiPaneObjective.repaint();
 						wResume.setEnabled(true);
 						pages.pop();
@@ -480,7 +498,7 @@ public class GreenhouseClient extends ExampleClient {
 	}
 	
 	@Override
-	protected Matrix4f projectionMatrix() {
+	public Matrix4f projectionMatrix() {
 		return Projection.perspective(settings.fov, getAspectRatio(), 0.1f, 60.0f);
 	}
 	
@@ -492,6 +510,12 @@ public class GreenhouseClient extends ExampleClient {
 			uiMenuPane.repaint();
 		}
 		activeController.setMouseLook(true);
+	}
+	
+	public void showMap() {
+		activeRenderer = mapView;
+		activeInput = mapView;
+		mapView.start();
 	}
 	
 	@Override
@@ -526,6 +550,12 @@ public class GreenhouseClient extends ExampleClient {
 	@Override
 	protected void keyDown(int key) {
 		switch(Keyboard.getEventKey()) {
+			case Keyboard.KEY_TAB:
+				if(mapViewEnabled) {
+					activeController.setMouseLook(false);
+					showMap();
+				}
+				break;
 			case Keyboard.KEY_F4:
 				showDebugLines = !showDebugLines;
 				break;
