@@ -10,7 +10,7 @@ import com.xrbpowered.gl.scene.Scene;
 public class MapShader extends SceneShader {
 
 	public MapShader(Scene scene) {
-		super(scene, StandardShader.standardVertexInfo, "wallt_v.glsl", "blank_fog_f.glsl");
+		super(scene, StandardShader.standardVertexInfo, "shaders/wallt_v.glsl", "shaders/blank_fog_f.glsl");
 	}
 
 	@Override

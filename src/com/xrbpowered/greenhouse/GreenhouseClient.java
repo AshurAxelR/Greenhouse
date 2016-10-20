@@ -179,9 +179,9 @@ public class GreenhouseClient extends ExampleClient {
 	protected void setupResources() {
 		Client.timestamp(null);
 		try {
-			SMALL_FONT = AssetManager.defaultAssets.loadFont("Roboto-Medium.ttf").deriveFont(15f);
+			SMALL_FONT = AssetManager.defaultAssets.loadFont("fonts/Roboto/Roboto-Medium.ttf").deriveFont(15f);
 			BODY_FONT = SMALL_FONT.deriveFont(17f);
-			LARGE_FONT = AssetManager.defaultAssets.loadFont("DaysOne-Regular.ttf").deriveFont(18f);
+			LARGE_FONT = AssetManager.defaultAssets.loadFont("fonts/DaysOne/DaysOne-Regular.ttf").deriveFont(18f);
 			TITLE_FONT = LARGE_FONT.deriveFont(30f);
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -214,7 +214,7 @@ public class GreenhouseClient extends ExampleClient {
 		
 		renderStack.mapShader = new MapShader(scene);
 		
-		debugLinesShader = new SceneShader(scene, debugLinesInfo, "debug_lines_v.glsl", "blank_f.glsl");
+		debugLinesShader = new SceneShader(scene, debugLinesInfo, "shaders/debug_lines_v.glsl", "blank_f.glsl");
 		loading.addProgress(1);
 		Client.timestamp("load shaders");
 
@@ -225,7 +225,7 @@ public class GreenhouseClient extends ExampleClient {
 
 		renderStack.mtlStack = MaterialStack.createMaterialStack(loading);
 		WallSkin.defaults = new WallSkin(texturePlain, plainNormalTexture, specular, renderStack.mtlStack.mask(0));
-		checkerSkin = new WallSkin(textures.get("checker.png"), plainNormalTexture, specular, noSpecularTexture);
+		checkerSkin = new WallSkin(textures.get("materials/checker.png"), plainNormalTexture, specular, noSpecularTexture);
 		floorSkin = new WallSkin(texturePlain, plainNormalTexture, specular, renderStack.mtlStack.mask(0xf5));
 		Client.timestamp("load materials");
 		

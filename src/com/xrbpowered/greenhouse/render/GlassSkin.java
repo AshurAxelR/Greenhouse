@@ -19,9 +19,9 @@ public class GlassSkin implements ComponentSkin {
 	
 	public GlassSkin() {
 		this.diffuse = BufferTexture.createPlainColor(4, 4, new Color(0x44737770, true));
-		this.normal = new Texture("glass_n.png");
+		this.normal = new Texture("materials/glass_n.png");
 		this.specularMask = BufferTexture.createPlainColor(4, 4, new Color(0x99ff00));
-		this.blurMask = new Texture("glass_blur.png");
+		this.blurMask = new Texture("materials/glass_blur.png");
 	}
 	
 	@Override

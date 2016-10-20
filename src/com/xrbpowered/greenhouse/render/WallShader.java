@@ -11,7 +11,7 @@ public class WallShader extends GreenhouseLightShader {
 	private static final String[] SAMLER_NAMES = {"texDiffuse", "texNormal", "texSpecMask", "texMtlMask", "mtlStack"};
 
 	public WallShader(GreenhouseEnvironment env, Scene scene) {
-		super(env, scene, StandardShader.standardVertexInfo, "wallt_v.glsl", "wallt_f.glsl");
+		super(env, scene, StandardShader.standardVertexInfo, "shaders/wallt_v.glsl", "shaders/wallt_f.glsl");
 	}
 	
 	protected WallShader(GreenhouseEnvironment env, Scene scene, String pathVS, String pathFS) {

@@ -8,7 +8,7 @@ public class GlassBlurShader extends GreenhouseShader {
 	private static final String[] SAMLER_NAMES = {"texNormal", "texBlurMask", "texBuffer", "texBlur"};
 
 	public GlassBlurShader(GreenhouseEnvironment env, Scene scene) {
-		super(env, scene, StandardShader.standardVertexInfo, "glass2_v.glsl", "glass2_f.glsl");
+		super(env, scene, StandardShader.standardVertexInfo, "shaders/glass2_v.glsl", "shaders/glass2_f.glsl");
 	}
 
 	@Override

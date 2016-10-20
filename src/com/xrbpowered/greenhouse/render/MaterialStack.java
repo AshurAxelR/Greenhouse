@@ -29,9 +29,9 @@ public class MaterialStack extends ArrayTexture {
 		return new MaterialStack(1024, 1024, MATERIAL_NAMES, loading);
 	}
 
-	private static final String FORMAT_DIFFUSE = "%s.jpg";
-	private static final String FORMAT_NORMAL = "%s_n.jpg";
-	private static final String FORMAT_SPEC_MASK = "%s_s.png";
+	private static final String FORMAT_DIFFUSE = "materials/%s.jpg";
+	private static final String FORMAT_NORMAL = "materials/%s_n.jpg";
+	private static final String FORMAT_SPEC_MASK = "materials/%s_s.png";
 	
 	private AbstractTextureCache<Integer> masks;
 	
