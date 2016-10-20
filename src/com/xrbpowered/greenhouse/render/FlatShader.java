@@ -7,7 +7,7 @@ public class FlatShader extends WallShader {
 	private static final String[] SAMLER_NAMES = {"texDiffuse", "texNormal", "texSpecMask", "texMtlMask", "mtlStack", "texSeeThrough"};
 
 	public FlatShader(GreenhouseEnvironment env, Scene scene) {
-		super(env, scene, "wallt_v.glsl", "flat_f.glsl");
+		super(env, scene, "shaders/wallt_v.glsl", "shaders/flat_f.glsl");
 	}
 
 	protected void storeUniformLocations() {

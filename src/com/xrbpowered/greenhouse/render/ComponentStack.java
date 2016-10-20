@@ -56,35 +56,35 @@ public class ComponentStack {
 	
 	public static ComponentStack createComponentStack(GreenhouseClient client, AbstractLoadScreen loading) {
 		ComponentStack st = new ComponentStack();
-		wallPanel = st.add(new PrefabComponent("wall_panel.obj", WallSkin.load(client.textures, "wall_panel", loading).setMaterialTiling(2, 2)));
-		wallFrame = st.add(new PrefabComponent("wall_frame.obj", WallSkin.load(client.textures, "wall_frame", loading).setMaterialTiling(2, 4)));
-		wallFloor = st.add(new PrefabComponent("wall_floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(2, 0.5f))); loading.addProgress(4);
+		wallPanel = st.add(new PrefabComponent("prefabs/wall/wall_panel.obj", WallSkin.load(client.textures, "prefabs/wall/wall_panel", loading).setMaterialTiling(2, 2)));
+		wallFrame = st.add(new PrefabComponent("prefabs/wall/wall_frame.obj", WallSkin.load(client.textures, "prefabs/wall/wall_frame", loading).setMaterialTiling(2, 4)));
+		wallFloor = st.add(new PrefabComponent("prefabs/wall/wall_floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(2, 0.5f))); loading.addProgress(4);
 		mapFloorWall = st.add(new PrefabComponent(wallFloor.mesh, null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
-		mapLinesWallFrame = st.add(new PrefabComponent("e_wall_frame.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
-		mapLinesWallPanel = st.add(new PrefabComponent("e_wall_panel.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
-		mapLinesWallFloor = st.add(new PrefabComponent("e_wall_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
+		mapLinesWallFrame = st.add(new PrefabComponent("map/e_wall_frame.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
+		mapLinesWallPanel = st.add(new PrefabComponent("map/e_wall_panel.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
+		mapLinesWallFloor = st.add(new PrefabComponent("map/e_wall_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
 		
-		floor = st.add(new PrefabComponent("floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(2, 2))); loading.addProgress(4);
-		ceil = st.add(new PrefabComponent("ceil.obj", WallSkin.load(client.textures, "ceil", loading).setMaterialTiling(2, 4)));
-		ceilLamp = st.add(new PrefabComponent("ceil_lamp.obj", WallSkin.load(client.textures, "ceil_lamp", loading).setMaterialTiling(2, 4)));
+		floor = st.add(new PrefabComponent("prefabs/mid/floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(2, 2))); loading.addProgress(4);
+		ceil = st.add(new PrefabComponent("prefabs/mid/ceil.obj", WallSkin.load(client.textures, "prefabs/mid/ceil", loading).setMaterialTiling(2, 4)));
+		ceilLamp = st.add(new PrefabComponent("prefabs/mid/ceil_lamp.obj", WallSkin.load(client.textures, "prefabs/mid/ceil_lamp", loading).setMaterialTiling(2, 4)));
 		mapFloorMid = st.add(new PrefabComponent(floor.mesh, null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
-		mapLinesCeilLamp = st.add(new PrefabComponent("e_ceil_lamp.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
+		mapLinesCeilLamp = st.add(new PrefabComponent("map/e_ceil_lamp.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
 		
-		podOut = st.add(new PrefabComponent("pod_out.obj", WallSkin.load(
-				client.textures, "pod_out", client.texturePlain, null, null, null, loading
+		podOut = st.add(new PrefabComponent("prefabs/pod/pod_out.obj", WallSkin.load(
+				client.textures, "prefabs/pod/pod_out", client.texturePlain, null, null, null, loading
 			).setMaterialTiling(4, 4)));
-		podFloor = st.add(new PrefabComponent("floor.obj", WallSkin.load(
-				client.textures, "pod_floor", client.floorSkin.diffuse, client.floorSkin.normal, null, client.floorSkin.materialMask, loading
+		podFloor = st.add(new PrefabComponent(floor.mesh, WallSkin.load(
+				client.textures, "prefabs/pod/pod_floor", client.floorSkin.diffuse, client.floorSkin.normal, null, client.floorSkin.materialMask, loading
 			).setMaterialTiling(2, 2)));
-		podIn = st.add(new PrefabComponent("pod_in.obj", WallSkin.load(client.textures, "pod_in", loading).setMaterialTiling(2, 4))
+		podIn = st.add(new PrefabComponent("prefabs/pod/pod_in.obj", WallSkin.load(client.textures, "prefabs/pod/pod_in", loading).setMaterialTiling(2, 4))
 				.setRenderPass(RenderStack.PASS_INNER)
 				.setLocalLighting(GreenhouseEnvironment.INNER_AMBIENT, new Vector3f(0f, 2f, 0f), new Vector4f(1.5f, 1.5f, 1.5f, 1f), 2f));
-		plant = st.add(new PrefabComponent("plant.obj", FlatSkin.load(client.textures, "plant",
+		plant = st.add(new PrefabComponent("prefabs/pod/plant.obj", FlatSkin.load(client.textures, "prefabs/pod/plant",
 				null, null, null, client.renderStack.mtlStack.mask(0), null, loading
 			).setMaterialTiling(0.2f, 1))
 				.setRenderPass(RenderStack.PASS_FLATS)
 				.setLocalLighting(GreenhouseEnvironment.INNER_AMBIENT, new Vector3f(0f, 2.5f, 0f), new Vector4f(1.2f, 1.2f, 1.2f, 1f), 2f));
-		podGlass = st.add(new PrefabComponent("pod_glass.obj", client.glassSkin) {
+		podGlass = st.add(new PrefabComponent("prefabs/pod/pod_glass.obj", client.glassSkin) {
 			public int drawPass(int pass, Shader shader) {
 				if(pass==RenderStack.PASS_GLASS1 || pass==RenderStack.PASS_GLASS2)
 					return drawInstances(pass, shader);
@@ -95,23 +95,23 @@ public class ComponentStack {
 				return super.countTris()*2;
 			};
 		}.setLocalLighting(GreenhouseEnvironment.DEFAULT_AMBIENT, new Vector3f(0f, 3f, 0f), new Vector4f(1f, 1f, 1f, 1f), 3f)); loading.addProgress(4);
-		mapFloorPod = st.add(new PrefabComponent("pod_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
-		mapLinesPod = st.add(new PrefabComponent("e_pod.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
-		mapLinesPodFloor = st.add(new PrefabComponent("e_pod_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
+		mapFloorPod = st.add(new PrefabComponent("prefabs/pod/pod_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
+		mapLinesPod = st.add(new PrefabComponent("map/e_pod.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
+		mapLinesPodFloor = st.add(new PrefabComponent("map/e_pod_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
 
-		cinFrame = st.add(new PrefabComponent("cin_frame.obj", WallSkin.load(client.textures, "cin_frame", loading).setMaterialTiling(2, 4)));
-		cinFloor = st.add(new PrefabComponent("cin_floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(0.5f, 0.5f))); loading.addProgress(4);
-		mapFloorCin = st.add(new PrefabComponent("cin_floor_x.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
-		mapLinesCinFrame = st.add(new PrefabComponent("e_cin_frame.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
-		mapLinesCinFloor = st.add(new PrefabComponent("e_cin_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
+		cinFrame = st.add(new PrefabComponent("prefabs/cin/cin_frame.obj", WallSkin.load(client.textures, "prefabs/cin/cin_frame", loading).setMaterialTiling(2, 4)));
+		cinFloor = st.add(new PrefabComponent("prefabs/cin/cin_floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(0.5f, 0.5f))); loading.addProgress(4);
+		mapFloorCin = st.add(new PrefabComponent("prefabs/cin/cin_floor_x.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
+		mapLinesCinFrame = st.add(new PrefabComponent("map/e_cin_frame.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
+		mapLinesCinFloor = st.add(new PrefabComponent("map/e_cin_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
 
-		coutPanel = st.add(new PrefabComponent("cout_panel.obj", WallSkin.load(client.textures, "cout_panel", loading).setMaterialTiling(2, 2)));
-		coutFrame = st.add(new PrefabComponent("cout_frame.obj", WallSkin.load(client.textures, "cout_frame", loading).setMaterialTiling(4, 4)));
-		coutFloor = st.add(new PrefabComponent("cout_floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(2, 2))); loading.addProgress(4);
+		coutPanel = st.add(new PrefabComponent("prefabs/cout/cout_panel.obj", WallSkin.load(client.textures, "prefabs/cout/cout_panel", loading).setMaterialTiling(2, 2)));
+		coutFrame = st.add(new PrefabComponent("prefabs/cout/cout_frame.obj", WallSkin.load(client.textures, "prefabs/cout/cout_frame", loading).setMaterialTiling(4, 4)));
+		coutFloor = st.add(new PrefabComponent("prefabs/cout/cout_floor.obj", new WallSkin(client.floorSkin).setMaterialTiling(2, 2))); loading.addProgress(4);
 		mapFloorCout = st.add(new PrefabComponent(coutFloor.mesh, null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
-		mapLinesCoutFrame = st.add(new PrefabComponent("e_cout_frame.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
-		mapLinesCoutPanel = st.add(new PrefabComponent("e_cout_panel.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
-		mapLinesCoutFloor = st.add(new PrefabComponent("e_cout_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
+		mapLinesCoutFrame = st.add(new PrefabComponent("map/e_cout_frame.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
+		mapLinesCoutPanel = st.add(new PrefabComponent("map/e_cout_panel.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);
+		mapLinesCoutFloor = st.add(new PrefabComponent("map/e_cout_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR_LINES);
 		
 		loading.addProgress(1);
 		
