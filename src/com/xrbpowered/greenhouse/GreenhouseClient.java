@@ -78,7 +78,7 @@ import com.xrbpowered.utils.assets.FileAssetManager;
 
 public class GreenhouseClient extends ExampleClient {
 
-	public static final String VERSION_NAME =  "pre-alpha build 16A03";
+	public static final String VERSION_NAME =  "pre-alpha build 16A20";
 	
 	private VertexInfo debugLinesInfo = new VertexInfo().addFloatAttrib("in_Position", 2);
 	private StaticMesh debugLines = null;
