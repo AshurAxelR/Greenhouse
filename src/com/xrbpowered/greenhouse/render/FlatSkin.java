@@ -1,5 +1,6 @@
 package com.xrbpowered.greenhouse.render;
 
+import com.xrbpowered.gl.res.shaders.Shader;
 import com.xrbpowered.gl.res.textures.Texture;
 import com.xrbpowered.gl.res.textures.TextureCache;
 import com.xrbpowered.gl.ui.AbstractLoadScreen;
@@ -32,7 +33,7 @@ public class FlatSkin implements ComponentSkin {
 	}
 
 	@Override
-	public void use(int renderPass, GreenhouseShader shader) {
+	public void use(int renderPass, Shader shader) {
 		opaques.use(renderPass, shader);
 		seeThrough.bind(5);
 	}

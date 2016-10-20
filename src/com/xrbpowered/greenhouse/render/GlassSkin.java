@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import com.xrbpowered.gl.res.shaders.Shader;
 import com.xrbpowered.gl.res.textures.BufferTexture;
 import com.xrbpowered.gl.res.textures.Texture;
 
@@ -24,7 +25,7 @@ public class GlassSkin implements ComponentSkin {
 	}
 	
 	@Override
-	public void use(int renderPass, GreenhouseShader shader) {
+	public void use(int renderPass, Shader shader) {
 		if(renderPass==RenderStack.PASS_GLASS1) {
 			diffuse.bind(0);
 			normal.bind(1);
