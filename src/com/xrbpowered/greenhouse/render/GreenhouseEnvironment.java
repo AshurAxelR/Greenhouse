@@ -20,13 +20,13 @@ public class GreenhouseEnvironment extends ShaderEnvironment<GreenhouseShader> {
 	private BufferTexture mapLightColors = null;
 
 	public GreenhouseEnvironment initLightColors(final GreenhouseClient client) {
-		mapLightColors = new BufferTexture(MAP_SIZE, MAP_SIZE, false, false, true) {
+		mapLightColors = new BufferTexture(MAP_SIZE, MAP_SIZE, false, false, false) {
 			@Override
 			protected boolean updateBuffer(Graphics2D g2) {
 				GreenhouseMap map = client.getMap();
 				if(map==null)
 					return false;
-				return map.updateMapLightColors(g2, getWidth(), getHeight());
+				return map.updateMapLightColors(imgBuffer, getWidth(), getHeight());
 			}
 		};
 		return this;

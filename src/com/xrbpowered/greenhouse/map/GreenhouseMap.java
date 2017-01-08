@@ -1,10 +1,10 @@
 package com.xrbpowered.greenhouse.map;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 
-import com.xrbpowered.gl.res.textures.BufferTexture;
 import com.xrbpowered.gl.scene.StaticMeshActor;
 import com.xrbpowered.greenhouse.render.PrefabActor;
 import com.xrbpowered.greenhouse.render.PrefabComponent;
@@ -33,17 +33,22 @@ public class GreenhouseMap {
 		tiles[x][y] = tile;
 	}
 	
-	public boolean updateMapLightColors(Graphics2D g2, int w, int h) {
-		g2.setBackground(BufferTexture.CLEAR_COLOR);
-		g2.clearRect(0, 0, w, h);
+	public boolean updateMapLightColors(BufferedImage img, int w, int h) {
+		int[] data = new int[w*h*4];
 		for(int x=0; x<=sizex-1; x++)
 			for(int y=0; y<=sizey-1; y++) {
 				TileActor tile = tiles[x][y];
 				if(tile==null || tile.lightPosition==null || tile.lightColor==null)
 					continue;
-				g2.setColor(new Color(tile.lightColor.x, tile.lightColor.y, tile.lightColor.z));
-				g2.fillRect(x+1, y+1, 1, 1);
+				int offs = ((x+1) + (y+1)*w)*4;
+				Color col = new Color(tile.lightColor.x, tile.lightColor.y, tile.lightColor.z);
+				data[offs+3] = 255;
+				data[offs+0] = col.getRed();
+				data[offs+1] = col.getGreen();
+				data[offs+2] = col.getBlue();
 			}
+		WritableRaster raster = img.getRaster();
+		raster.setPixels(0, 0, w, h, data);
 		return true;
 	}
 	

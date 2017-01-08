@@ -28,10 +28,9 @@ import com.xrbpowered.gl.examples.BlurBackground;
 import com.xrbpowered.gl.examples.ExampleClient;
 import com.xrbpowered.gl.examples.ExampleMenu;
 import com.xrbpowered.gl.examples.ExampleWidgetPainters;
-import com.xrbpowered.gl.res.ObjMeshLoader;
-import com.xrbpowered.gl.res.StandardMeshBuilder;
 import com.xrbpowered.gl.res.StaticMesh;
 import com.xrbpowered.gl.res.buffers.RenderTarget;
+import com.xrbpowered.gl.res.builder.ObjMeshLoader;
 import com.xrbpowered.gl.res.shaders.PostProcessRenderer;
 import com.xrbpowered.gl.res.shaders.PostProcessShader;
 import com.xrbpowered.gl.res.shaders.SceneShader;
@@ -80,7 +79,7 @@ public class GreenhouseClient extends ExampleClient {
 
 	public static final String VERSION_NAME =  "pre-alpha build 16A20";
 	
-	private VertexInfo debugLinesInfo = new VertexInfo().addFloatAttrib("in_Position", 2);
+	private VertexInfo debugLinesInfo = new VertexInfo().addAttrib("in_Position", 2);
 	private StaticMesh debugLines = null;
 	private Shader debugLinesShader;
 	private boolean showDebugLines = false;
@@ -138,7 +137,7 @@ public class GreenhouseClient extends ExampleClient {
 	}
 	
 	public StaticMeshActor makeCrystalActor(Vector3f position, float phase) {
-		StaticMeshActor actor = StandardMeshBuilder.makeActor(scene, meshCrystal, crystalTexture, plainSpecularTexture, plainNormalTexture);
+		StaticMeshActor actor = StaticMeshActor.make(scene, meshCrystal, StandardShader.getInstance(), crystalTexture, plainSpecularTexture, plainNormalTexture);
 		actor.position = position;
 		actor.rotation.x = (float) Math.PI / 12f;
 		actor.rotation.y = (float) Math.PI * 2f * phase;
@@ -263,7 +262,7 @@ public class GreenhouseClient extends ExampleClient {
 				ComponentStack.mapFloorCout, ComponentStack.mapLinesCoutFrame, ComponentStack.mapLinesCoutPanel, ComponentStack.mapLinesCoutFloor
 			).addColliders(new Vector2f(-1.5f, 1f), new Vector2f(0.25f, 1f), new Vector2f(1f, 0.25f), new Vector2f(1f, -1.5f));
 		
-		meshCrystal = ObjMeshLoader.loadObj("test.obj", 0, 0.2f);
+		meshCrystal = ObjMeshLoader.loadObj("test.obj", 0, 0.2f, StandardShader.standardVertexInfo, null);
 		Client.timestamp("load prefabs");
 		
 		CLEAR_COLOR = new Color(0.5f, 0.6f, 0.4f);

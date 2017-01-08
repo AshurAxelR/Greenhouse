@@ -3,10 +3,11 @@ package com.xrbpowered.greenhouse.render;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import com.xrbpowered.gl.res.ObjMeshLoader;
 import com.xrbpowered.gl.res.StaticMesh;
+import com.xrbpowered.gl.res.builder.ObjMeshLoader;
 import com.xrbpowered.gl.res.shaders.InstanceBuffer;
 import com.xrbpowered.gl.res.shaders.Shader;
+import com.xrbpowered.gl.res.shaders.StandardShader;
 import com.xrbpowered.greenhouse.map.GreenhouseMap;
 import com.xrbpowered.greenhouse.map.generate.TopologyExpander;
 import com.xrbpowered.greenhouse.map.generate.TopologyMap;
@@ -32,7 +33,7 @@ public class PrefabComponent {
 	private float localLightRange;
 	
 	public PrefabComponent(String objPath, ComponentSkin skin) {
-		this(ObjMeshLoader.loadObj(BASE_PATH + objPath, 0, 1f), skin);
+		this(ObjMeshLoader.loadObj(BASE_PATH + objPath, 0, 1f, StandardShader.standardVertexInfo, null), skin);
 	}
 
 	public PrefabComponent(StaticMesh mesh, ComponentSkin skin) {
