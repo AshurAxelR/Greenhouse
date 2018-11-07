@@ -77,7 +77,7 @@ public class RenderStack {
 		GL11.glDepthMask(true);
 
 		if(refractionMode>0) {
-			OffscreenBuffers.blit(target, interBuffers, true);
+			OffscreenBuffers.blit(target.resolve(), interBuffers, true);
 			if(refractionMode>1) {
 				blurBuffers.use();
 				postProc.draw(interBuffers, 0f);
