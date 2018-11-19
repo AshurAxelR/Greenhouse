@@ -578,7 +578,9 @@ public class GreenhouseClient extends ExampleClient {
 	}
 
 	@Override
-	protected void drawObjects(RenderTarget target, float dt) {
+	protected void update(float dt) {
+		super.update(dt);
+		
 		boolean updateLighting = false;
 		boolean objectiveRepaint = false;
 		for(Iterator<StaticMeshActor> i = map.crystalActors.iterator(); i.hasNext();) {
@@ -619,7 +621,10 @@ public class GreenhouseClient extends ExampleClient {
 		if(objectiveRepaint || msgHint==null && ((int)timeElapsed!=(int)timeShown)) {
 			uiPaneObjective.repaint();
 		}
-		
+	}
+	
+	@Override
+	protected void drawObjects(RenderTarget target) {
 		renderStack.render(target, map);
 		
 		if(showDebugLines) {

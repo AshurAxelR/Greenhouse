@@ -82,8 +82,13 @@ public class MapView implements InputHandler, Renderer {
 	}
 	
 	@Override
-	public void redraw(RenderTarget target, float dt) {
-		background.redraw(target, dt);
+	public void updateTime(float dt) {
+		background.updateTime(dt);
+	}
+	
+	@Override
+	public void redraw(RenderTarget target) {
+		background.redraw(target);
 		CameraActor mainCamera = client.getScene().activeCamera; 
 		client.getScene().activeCamera = camera;
 		

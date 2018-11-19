@@ -80,7 +80,7 @@ public class RenderStack {
 			OffscreenBuffers.blit(target.resolve(), interBuffers, true);
 			if(refractionMode>1) {
 				blurBuffers.use();
-				postProc.draw(interBuffers, 0f);
+				postProc.draw(interBuffers);
 			}
 			target.use();
 			
