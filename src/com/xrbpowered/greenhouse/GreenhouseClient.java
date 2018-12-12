@@ -311,9 +311,7 @@ public class GreenhouseClient extends ExampleClient {
 		
 		uiPaneObjective = new UIPane(ui, new BufferTexture(500, 100, false, false, true) {
 			@Override
-			protected boolean updateBuffer(Graphics2D g2) {
-				int w = getWidth();
-				int h = getHeight();
+			protected boolean updateBuffer(Graphics2D g2, int w, int h) {
 				BufferTexture.clearBuffer(g2, w, h);
 				
 				g2.setPaint(new LinearGradientPaint(50, 0, 450, 0, new float[] {0f, 0.3f, 0.7f, 1f},  new Color[] {
@@ -377,9 +375,7 @@ public class GreenhouseClient extends ExampleClient {
 		UIManager ui = new UIManager();
 		uiMenuPane = new UIPane(ui, new BufferTexture(500, 100, false, false, false) {
 			@Override
-			protected boolean updateBuffer(Graphics2D g2) {
-				int w = getWidth();
-				int h = getHeight();
+			protected boolean updateBuffer(Graphics2D g2, int w, int h) {
 				BufferTexture.clearBuffer(g2, w, h);
 				
 				g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);

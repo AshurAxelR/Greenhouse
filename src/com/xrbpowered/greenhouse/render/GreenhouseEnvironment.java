@@ -22,11 +22,11 @@ public class GreenhouseEnvironment extends ShaderEnvironment<GreenhouseShader> {
 	public GreenhouseEnvironment initLightColors(final GreenhouseClient client) {
 		mapLightColors = new BufferTexture(MAP_SIZE, MAP_SIZE, false, false, false) {
 			@Override
-			protected boolean updateBuffer(Graphics2D g2) {
+			protected boolean updateBuffer(Graphics2D g2, int w, int h) {
 				GreenhouseMap map = client.getMap();
 				if(map==null)
 					return false;
-				return map.updateMapLightColors(imgBuffer, getWidth(), getHeight());
+				return map.updateMapLightColors(imgBuffer, w, h);
 			}
 		};
 		return this;
