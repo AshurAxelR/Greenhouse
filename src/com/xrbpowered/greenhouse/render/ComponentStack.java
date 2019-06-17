@@ -90,10 +90,10 @@ public class ComponentStack {
 					return drawInstances(pass, shader);
 				else
 					return 0;
-			};
+			}
 			public int countTris() {
 				return super.countTris()*2;
-			};
+			}
 		}.setLocalLighting(GreenhouseEnvironment.DEFAULT_AMBIENT, new Vector3f(0f, 3f, 0f), new Vector4f(1f, 1f, 1f, 1f), 3f)); loading.addProgress(4);
 		mapFloorPod = st.add(new PrefabComponent("prefabs/pod/pod_floor.obj", null)).setRenderPass(RenderStack.PASS_MAP_FLOOR);
 		mapLinesPod = st.add(new PrefabComponent("map/e_pod.obj", null)).setRenderPass(RenderStack.PASS_MAP_WALL_LINES);

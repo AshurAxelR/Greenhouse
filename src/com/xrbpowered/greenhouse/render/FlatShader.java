@@ -13,5 +13,5 @@ public class FlatShader extends WallShader {
 	protected void storeUniformLocations() {
 		super.storeUniformLocations();
 		initSamplers(SAMLER_NAMES);
-	};
+	}
 }

@@ -19,6 +19,6 @@ public class GlassShader extends GreenhouseLightShader {
 	protected void storeUniformLocations() {
 		super.storeUniformLocations();
 		initSamplers(SAMLER_NAMES);
-	};
+	}
 	
 }

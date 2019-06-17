@@ -53,7 +53,7 @@ public class TopologyMap implements AbstractMap<Integer> {
 	
 	public int sizey() {
 		return sizey;
-	};
+	}
 	
 	public boolean isDeadEnd(int x, int y) {
 		return map[x][y]==N_PASS || map[x][y]==S_PASS || map[x][y]==W_PASS || map[x][y]==E_PASS;

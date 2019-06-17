@@ -602,7 +602,7 @@ public class GreenhouseClient extends ExampleClient {
 		}
 		if(updateLighting) {
 			if(map.crystalActors.size()==0) {
-				msgObjective = "Objective complete in "+String.format("%02d:%02d", ((int) timeElapsed)/60, ((int) timeElapsed)%60);;
+				msgObjective = "Objective complete in "+String.format("%02d:%02d", ((int) timeElapsed)/60, ((int) timeElapsed)%60);
 				msgHint = "Press Escape to open menu";
 			}
 			else {

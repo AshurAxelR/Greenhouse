@@ -37,7 +37,7 @@ public class MapView implements InputHandler, Renderer {
 			protected void applyVelocity(Vector3f position, Vector4f v) {
 				position.x += v.x;
 				position.z += v.z;
-			};
+			}
 		}.setActor(camera).setLookController(true);
 		controller.moveSpeed = 90f;
 		controller.rotateSpeed = 0f;

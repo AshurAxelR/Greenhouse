@@ -39,7 +39,7 @@ public class BlockMap implements AbstractMap<Integer> {
 	
 	public int sizey() {
 		return sizey;
-	};
+	}
 
 	public void setStartPoint(Point startPoint) {
 		this.startPoint = new Point(startPoint);

@@ -29,6 +29,6 @@ public class LoadScreen extends AbstractLoadScreen {
 		else {
 			return false;
 		}
-	};
+	}
 
 }

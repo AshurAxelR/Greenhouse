@@ -26,8 +26,8 @@ public class WallShader extends GreenhouseLightShader {
 	protected void storeUniformLocations() {
 		super.storeUniformLocations();
 		initSamplers(SAMLER_NAMES);
-	};
-	
+	}
+
 	public void setMaterialTiling(Vector2f tiling) {
 		uniform(GL20.glGetUniformLocation(pId, "mtlTiling"), tiling);
 	}

@@ -19,6 +19,6 @@ public class GlassBlurShader extends GreenhouseShader {
 	protected void storeUniformLocations() {
 		super.storeUniformLocations();
 		initSamplers(SAMLER_NAMES);
-	};
+	}
 	
 }
