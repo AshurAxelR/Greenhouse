@@ -1,6 +1,3 @@
-
-Pre-alpha version. Please do not re-distribute.
-
 Double-click greenhouse.jar to run,
 or run manually from cmd line using:
 java -jar greenhouse.jar
